@@ -1,0 +1,186 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, height=device-height, initial-scale=1, user-scalable=no">
+  <meta name="description" content="API docs for the toBytes method from the Program class, for the Dart programming language.">
+  <title>toBytes method - Program class - program library - Dart API</title>
+
+
+  
+  <link rel="preconnect" href="https://fonts.gstatic.com">
+  <link href="https://fonts.googleapis.com/css2?family=Roboto+Mono:ital,wght@0,300;0,400;0,500;0,700;1,400&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@48,400,0,0" rel="stylesheet">
+  
+  <link rel="stylesheet" href="../../static-assets/github.css?v1">
+  <link rel="stylesheet" href="../../static-assets/styles.css?v1">
+  <link rel="icon" href="../../static-assets/favicon.png?v1">
+
+  
+</head>
+
+
+<body data-base-href="../../" data-using-base-href="false" class="light-theme">
+
+<div id="overlay-under-drawer"></div>
+
+<header id="title">
+  <span id="sidenav-left-toggle" class="material-symbols-outlined" role="button" tabindex="0">menu</span>
+  <ol class="breadcrumbs gt-separated dark hidden-xs">
+    <li><a href="../../index.html">led_ble_lib</a></li>
+    <li><a href="../../models_program/models_program-library.html">models&#47;program.dart</a></li>
+    <li><a href="../../models_program/Program-class.html">Program</a></li>
+    <li class="self-crumb">toBytes method</li>
+  </ol>
+  <div class="self-name">toBytes</div>
+  <form class="search navbar-right" role="search">
+    <input type="text" id="search-box" autocomplete="off" disabled class="form-control typeahead" placeholder="Loading search...">
+  </form>
+  <div class="toggle" id="theme-button">
+    <label for="theme">
+      <input type="checkbox" id="theme" value="light-theme">
+      <span id="dark-theme-button" class="material-symbols-outlined">
+        brightness_4
+      </span>
+      <span id="light-theme-button" class="material-symbols-outlined">
+        brightness_5
+      </span>
+    </label>
+  </div>
+</header>
+<main>
+
+  <div
+      id="dartdoc-main-content"
+      class="main-content"
+      data-above-sidebar="models_program&#47;Program-class-sidebar.html"
+      data-below-sidebar="">
+      <div>
+<h1><span class="kind-method">toBytes</span> method 
+</h1></div>
+
+    <section class="multi-line-signature">
+      
+
+<span class="returntype"><a href="https://api.flutter.dev/flutter/dart-typed_data/Uint8List-class.html">Uint8List</a></span>
+<span class="name ">toBytes</span>(<wbr>)
+
+      
+
+    </section>
+    
+<section class="desc markdown">
+  <p>Convert program to byte array</p>
+</section>
+
+
+    
+<section class="summary source-code" id="source">
+  <h2><span>Implementation</span></h2>
+  <pre class="language-dart"><code class="language-dart">Uint8List toBytes() {
+  &#47;&#47; Create program header
+  final List&lt;int&gt; header = [
+    (programId &gt;&gt; 24) &amp; 0xFF,
+    (programId &gt;&gt; 16) &amp; 0xFF,
+    (programId &gt;&gt; 8) &amp; 0xFF,
+    programId &amp; 0xFF,
+    0x01,
+    0x00, 0x00, 0x00,
+    0x00, 0x00, 0x00, 0x00,
+    0x00, 0x00, 0x00, 0x00,
+    0x00, 0x00, 0x00, 0x00,
+    0x00, 0x00, 0x00, 0x00,
+    &#47;&#47; Partition X,Y coordinates
+    (partitionX &gt;&gt; 8) &amp; 0xFF, partitionX &amp; 0xFF,
+    (partitionY &gt;&gt; 8) &amp; 0xFF, partitionY &amp; 0xFF,
+
+    &#47;&#47; Partition dimensions
+    (partitionWidth &gt;&gt; 8) &amp; 0xFF, partitionWidth &amp; 0xFF,
+    (partitionHeight &gt;&gt; 8) &amp; 0xFF, partitionHeight &amp; 0xFF,
+
+    &#47;&#47; Reserved bytes
+    0x00, 0x00, 0x00,
+
+    &#47;&#47; Program type
+    programType.value,
+
+    &#47;&#47; Total frames
+    (totalFrames &gt;&gt; 8) &amp; 0xFF, totalFrames &amp; 0xFF,
+
+    &#47;&#47; Special effect
+    specialEffect.value,
+
+    &#47;&#47; Speed
+    speed,
+
+    &#47;&#47; Stay time
+    stayTime,
+
+    &#47;&#47; Circular border
+    circularBorder,
+
+    &#47;&#47; Brightness
+    brightness,
+
+    &#47;&#47; Reserved values
+    0x00, 0x00, 0x00,
+  ];
+
+  &#47;&#47; Merge header and program data
+  final result = Uint8List(header.length + programData.length);
+  result.setRange(0, header.length, header);
+  result.setRange(header.length, header.length + programData.length, programData);
+
+  return result;
+}</code></pre>
+</section>
+
+
+  </div> <!-- /.main-content -->
+
+  <div id="dartdoc-sidebar-left" class="sidebar sidebar-offcanvas-left">
+    <!-- The search input and breadcrumbs below are only responsively visible at low resolutions. -->
+<header id="header-search-sidebar" class="hidden-l">
+  <form class="search-sidebar" role="search">
+    <input type="text" id="search-sidebar" autocomplete="off" disabled class="form-control typeahead" placeholder="Loading search...">
+  </form>
+</header>
+
+<ol class="breadcrumbs gt-separated dark hidden-l" id="sidebar-nav">
+    <li><a href="../../index.html">led_ble_lib</a></li>
+    <li><a href="../../models_program/models_program-library.html">program</a></li>
+    <li><a href="../../models_program/Program-class.html">Program</a></li>
+    <li class="self-crumb">toBytes method</li>
+</ol>
+
+
+    <h5>Program class</h5>
+    <div id="dartdoc-sidebar-left-content"></div>
+  </div><!--/.sidebar-offcanvas-->
+
+  <div id="dartdoc-sidebar-right" class="sidebar sidebar-offcanvas-right">
+  </div><!--/.sidebar-offcanvas-->
+
+</main>
+
+<footer>
+  <span class="no-break">
+    led_ble_lib
+      0.0.1
+  </span>
+
+  
+</footer>
+
+
+
+<script src="../../static-assets/highlight.pack.js?v1"></script>
+<script src="../../static-assets/docs.dart.js"></script>
+
+
+
+</body>
+
+</html>
+
