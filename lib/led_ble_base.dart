@@ -339,6 +339,12 @@ class LedBluetooth {
     return Uint8List.fromList(packet);
   }
 
+bool get _useWriteWithoutResponseSmall =>
+    _writeSmallCharacteristic?.properties.writeWithoutResponse == true;
+
+bool get _useWriteWithoutResponseLarge =>
+    _writeLargeCharacteristic?.properties.writeWithoutResponse == true;
+
   /// Send small data command
   Future<bool> _sendSmallCommand(int commandCode, List<int> data) async {
     if (_connectedDevice == null || _writeSmallCharacteristic == null) {
@@ -351,8 +357,11 @@ class LedBluetooth {
       logFullMessage('_sendSmallCommand data: ${packet.toHex()}');
 
       // Send data
-      await _writeSmallCharacteristic!
-          .write(packet, withoutResponse: Platform.isAndroid);
+await _writeSmallCharacteristic!.write(
+  packet,
+  withoutResponse: _useWriteWithoutResponseSmall || Platform.isAndroid,
+);
+
 
       return true;
     } catch (e) {
@@ -437,12 +446,16 @@ class LedBluetooth {
         });
 
         // Send data
-        await _writeLargeCharacteristic!
-            .write(packet, withoutResponse: Platform.isAndroid);
-        if (Platform.isIOS) {
-          // Small pacing to avoid CoreBluetooth buffer saturation
-          await Future.delayed(const Duration(milliseconds: 8));
-        }
+await _writeLargeCharacteristic!.write(
+  packet,
+  withoutResponse: _useWriteWithoutResponseLarge || Platform.isAndroid,
+);
+if (Platform.isIOS) {
+  await Future.delayed(const Duration(milliseconds: 8));
+}
+
+
+
 
         // Set timeout
         Timer(_ackTimeout(), () {
@@ -527,11 +540,13 @@ class LedBluetooth {
 
     // Create command packet and send after listener is ready
     Uint8List packet = _createCommandPacket(commandCode, data);
-    await _writeLargeCharacteristic!
-        .write(packet, withoutResponse: Platform.isAndroid);
-    if (Platform.isIOS) {
-      await Future.delayed(const Duration(milliseconds: 8));
-    }
+await _writeLargeCharacteristic!.write(
+  packet,
+  withoutResponse: _useWriteWithoutResponseLarge || Platform.isAndroid,
+);
+if (Platform.isIOS) {
+  await Future.delayed(const Duration(milliseconds: 8));
+}
 
     // Set timeout
     Timer(_ackTimeout(), () {
