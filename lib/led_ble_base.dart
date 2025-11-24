@@ -496,11 +496,14 @@ if (Platform.isIOS) {
         completer.complete(true);
       });
 
-      await _writeLargeCharacteristic!
-          .write(packet, withoutResponse: Platform.isAndroid);
+      await _writeLargeCharacteristic!.write(
+        packet,
+        withoutResponse: _useWriteWithoutResponseLarge || Platform.isAndroid,
+      );
       if (Platform.isIOS) {
         await Future.delayed(const Duration(milliseconds: 8));
       }
+
 
       // Set timeout
       Timer(_ackTimeout(), () {
