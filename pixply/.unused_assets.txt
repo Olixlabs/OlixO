@@ -1,0 +1,34 @@
+assets/fonts/Poppins-Black.ttf
+assets/fonts/Poppins-BlackItalic.ttf
+assets/fonts/Poppins-BoldItalic.ttf
+assets/fonts/Poppins-ExtraBold.ttf
+assets/fonts/Poppins-ExtraBoldItalic.ttf
+assets/fonts/Poppins-ExtraLight.ttf
+assets/fonts/Poppins-ExtraLightItalic.ttf
+assets/fonts/Poppins-Italic.ttf
+assets/fonts/Poppins-Light.ttf
+assets/fonts/Poppins-LightItalic.ttf
+assets/fonts/Poppins-Medium.ttf
+assets/fonts/Poppins-MediumItalic.ttf
+assets/fonts/Poppins-SemiBoldItalic.ttf
+assets/fonts/Poppins-Thin.ttf
+assets/fonts/Poppins-ThinItalic.ttf
+assets/Alquerque1.svg
+assets/Arrow 1.png
+assets/Arrow 5.png
+assets/Arrow 6.png
+assets/Arrow 7.png
+assets/dara1.png
+assets/Game Direction.png
+assets/Gomokosetup.png
+assets/Group 306.png
+assets/Group 341.png
+assets/Group 60.png
+assets/Groupadugo.png
+assets/Groupcolor.png
+assets/Home.png
+assets/Layer 1.jpg
+assets/Nest.png
+assets/Nine Mens Morrise-game.png
+assets/Starting point.png
+

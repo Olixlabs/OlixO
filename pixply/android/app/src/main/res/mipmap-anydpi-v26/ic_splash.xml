@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="utf-8"?>
+<adaptive-icon xmlns:android="http://schemas.android.com/apk/res/android">
+  <!-- Same background as launcher icon -->
+  <background android:drawable="@drawable/ic_launcher_background" />
+  <!-- Smaller foreground only for splash (بزرگ‌تر از لانچر نباشد) -->
+  <foreground>
+      <inset
+          android:drawable="@drawable/ic_launcher_foreground"
+          android:inset="30%" />
+  </foreground>
+  <monochrome>
+      <inset
+          android:drawable="@drawable/ic_launcher_monochrome"
+          android:inset="30%" />
+  </monochrome>
+</adaptive-icon>
+

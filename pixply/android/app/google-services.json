@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "801315534097",
+    "project_id": "pixply",
+    "storage_bucket": "pixply.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:801315534097:android:9d22ce1777698beb5088b0",
+        "android_client_info": {
+          "package_name": "com.pixply.app"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyC-RSw4PiywOoPqqnqNSymR3Snm9TBWX4I"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

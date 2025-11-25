@@ -1,0 +1,793 @@
+name: pixply
+description: "A new Flutter project."
+# The following line prevents the package from being accidentally published to
+# pub.dev using `flutter pub publish`. This is preferred for private packages.
+publish_to: 'none' # Remove this line if you wish to publish to pub.dev
+
+# The following defines the version and build number for your application.
+# A version number is three numbers separated by dots, like 1.2.43
+# followed by an optional build number separated by a +.
+# Both the version and the builder number may be overridden in flutter
+# build by specifying --build-name and --build-number, respectively.
+# In Android, build-name is used as versionName while build-number used as versionCode.
+# Read more about Android versioning at https://developer.android.com/studio/publish/versioning
+# In iOS, build-name is used as CFBundleShortVersionString while build-number is used as CFBundleVersion.
+# Read more about iOS versioning at
+# https://developer.apple.com/library/archive/documentation/General/Reference/InfoPlistKeyReference/Articles/CoreFoundationKeys.html
+# In Windows, build-name is used as the major, minor, and patch parts
+# of the product and file versions while build-number is used as the build suffix.
+version: 1.0.31+250
+
+environment:
+  sdk: '>=3.3.4 <4.0.0'
+
+# Dependencies specify other packages that your package needs in order to work.
+# To automatically upgrade your package dependencies to the latest versions
+# consider running `flutter pub upgrade --major-versions`. Alternatively,
+# dependencies can be manually updated by changing the version numbers below to
+# the latest version available on pub.dev. To see which dependencies have newer
+# versions available, run `flutter pub outdated`.
+dependencies:
+  flutter:
+    sdk: flutter
+
+  # image_picker: ^1.2.0
+  path_provider: ^2.1.1
+  path: ^1.8.3
+  image: ^4.0.17
+  flutter_svg: ^2.0.17
+  simple_animations: ^5.1.0
+  flutter_animate: ^4.5.2
+  slide_action: ^0.0.1
+  flutter_screenutil: ^5.9.3
+  dotted_line: ^3.0.0
+  flutter_blue_plus: ^2.0.2
+  provider: ^6.1.5+1
+  hive: ^2.2.3
+  hive_flutter: ^1.1.0
+  connectivity_plus: ^6.1.5
+  http: ^1.5.0
+  file_picker: ^10.3.2
+  
+  # The following adds the Cupertino Icons font to your application.
+  # Use with the CupertinoIcons class for iOS style icons.
+  cupertino_icons: ^1.0.6
+  flutter_colorpicker: ^1.1.0
+  video_player: ^2.10.0
+  ionicons: ^0.2.2
+  permission_handler: ^12.0.1
+  device_info_plus: ^11.5.0
+  url_launcher: ^6.3.2
+  image_picker: ^1.2.0
+  just_audio: ^0.10.5
+  just_the_tooltip: ^0.0.12
+  flutter_secure_storage: ^9.2.4
+  country_picker: ^2.0.27
+  flutter_hsvcolor_picker: ^1.5.1
+  public_ip_address: ^1.2.1
+  firebase_core: ^4.1.1
+  firebase_messaging: ^16.0.2
+  flutter_local_notifications: ^19.4.2
+  shared_preferences: ^2.5.3
+  youtube_player_flutter: ^9.1.3
+  package_info_plus: ^9.0.0
+  intl: ^0.20.2
+  lottie: ^3.3.1
+  in_app_update: ^4.2.5
+  # flutter_launcher_icons: ^0.14.4
+  
+ 
+  
+
+dev_dependencies:
+  flutter_test:
+    sdk: flutter
+
+  # The "flutter_lints" package below contains a set of recommended lints to
+  # encourage good coding practices. The lint set provided by the package is
+  # activated in the `analysis_options.yaml` file located at the root of your
+  # package. See that file for information about deactivating specific lint
+  # rules and activating additional ones.
+  flutter_lints: ^5.0.0
+  flutter_launcher_icons: ^0.14.4
+  lints: ^5.1.1
+
+flutter_launcher_icons:
+  android: true
+  ios: true
+  image_path: assets/app_icon.png
+  adaptive_icon_background: assets/app_icon_bg.png
+  adaptive_icon_monochrome: assets/app_icon_mono.png
+  remove_alpha_ios: true
+  adaptive_icon_foreground: assets/app_icon_fg.png
+
+dependency_overrides:
+  # Force the newer BLE plugin and use the local library (with 2.x + license support)
+  flutter_blue_plus: ^2.0.2
+  led_ble_lib:
+    path: ./led_ble_lib
+
+# For information on the generic Dart part of this file, see the
+# following page: https://dart.dev/tools/pub/pubspec
+
+# The following section is specific to Flutter packages.
+flutter:
+
+  # The following line ensures that the Material Icons font is
+  # included with your application, so that you can use the icons in
+  # the material Icons class.
+  uses-material-design: true
+
+  # To add assets to your application, add an assets section, like this:
+  assets:
+    - assets/images/
+    - assets/logo.svg
+    - assets/Adugo.png
+    - assets/Adugo-1.png
+    - assets/sixmens.png
+    - assets/dices.svg
+    - assets/Group.svg
+    - assets/Heart 1.svg
+    - assets/planet-saturn 1.svg
+    - assets/search.svg
+    - assets/Vector.svg
+    - assets/Vectorheart.svg
+    - assets/arrow.svg
+    - assets/Heartred.svg
+    - assets/Fanaron.png
+    - assets/Patolli.png
+    - assets/Fivefieldkono.png
+    - assets/Groupadugo.svg
+    - assets/Groupcolor.svg
+    - assets/Grouptos.png
+    - assets/Groupcolor1.png
+    - assets/Group 60.svg
+    - assets/image 6.png
+    - assets/image 7.png
+    - assets/book.svg
+    - assets/preferences.svg
+    - assets/school.svg
+    - assets/strategy.svg
+    - assets/war.svg
+    - assets/Setting.svg
+    - assets/chess.png
+    - assets/backgamon.png
+    - assets/ludo.png
+    - assets/Adugo-game.png
+    - assets/winning.svg
+    - assets/Gameplay.png
+    - assets/component-six.png
+    - assets/Nine Mens Morris.png
+    - assets/Othello.png
+    - assets/Achi.png
+    - assets/Alquerque.png
+    - assets/Asalto.png
+    - assets/Bagh chal.png
+    - assets/Catch the hare.png
+    - assets/Checkers.png
+    - assets/Choko.png
+    - assets/Fox and geese.png
+    - assets/Konane.png
+    - assets/Rota.png
+    - assets/Xo.png
+    - assets/Patolli.png
+    - assets/Tab.png
+    - assets/Hyena.png
+    - assets/zohnahl.png
+    - assets/Groupcolor1.svg
+    - assets/image 6.svg
+    - assets/image 7.svg
+    - assets/Ludo-game.png
+    - assets/Ludo-1.png
+    - assets/Groupludo.svg
+    - assets/Groupcolorludo.svg
+    - assets/ludosetup.svg
+    - assets/Gameplay1.svg
+    - assets/Gameplay2.svg
+    - assets/Gameplay3.svg
+    - assets/Groupwin.svg
+    - assets/chess-1.png
+    - assets/Chess-game.png
+    - assets/Groupchess.svg
+    - assets/Groupcolorchess.svg
+    - assets/Six man morrise-game.png
+    - assets/Sixmens-1.png
+    - assets/Groupsixmens.svg
+    - assets/Groupcolorsixmen.svg
+    - assets/Groupsetupsix.svg
+    - assets/Gamesix1.svg
+    - assets/Gameplaysix2.svg
+    - assets/Gameplaysix3.svg
+    - assets/Gameplay4.svg
+    - assets/Fanaron-1.png
+    - assets/Fanaron-game.png
+    - assets/colorfanaron.svg
+    - assets/setupfanaron.svg
+    - assets/fanarona1.svg
+    - assets/fanaron2.svg
+    - assets/fanaron3.svg
+    - assets/fanaron4.svg
+    - assets/Backgammon-game.png
+    - assets/Backgammon-1.png
+    - assets/Groupbackg.svg
+    - assets/backgamoncolor.svg
+    - assets/backgamonsetup.svg
+    - assets/backgamon2.svg
+    - assets/backgamon1.svg
+    - assets/backgamon3.svg
+    - assets/backgamon4.svg
+    - assets/Five field kono-1.png
+    - assets/fivefiled-game.png
+    - assets/groupfivefield.svg
+    - assets/fivefieldcolor.svg
+    - assets/Gamesetupfive.svg
+    - assets/fivefield1.svg
+    - assets/fivefield2.svg
+    - assets/Gamesetupchess.svg
+    - assets/chess1.svg
+    - assets/chess2.svg
+    - assets/chess3.svg
+    - assets/chess4.svg
+    - assets/chess5.svg
+    - assets/chess6.svg
+    - assets/chess7.svg
+    - assets/Nine Mens Morris-1.png
+    - assets/Nine Mens Morris-game.png
+    - assets/Groupninemens.svg
+    - assets/Groupcolorninemens.svg
+    - assets/Gamesetupninemens.svg
+    - assets/ninemens1.svg
+    - assets/ninemens2.svg
+    - assets/ninemens3.svg
+    - assets/ninemens4.svg
+    - assets/xo-game.png
+    - assets/xo-1.png
+    - assets/Groupxo.svg
+    - assets/Groupcolorxo.svg
+    - assets/Gamesetupxo.svg
+    - assets/Gameplayxo.svg
+    - assets/othello-1.png
+    - assets/othello-game.png
+    - assets/Groupothello.svg
+    - assets/Groupcolorothello.svg
+    - assets/Gamesetupothello.svg
+    - assets/othello1.svg
+    - assets/othello2.svg
+    - assets/othello4.svg
+    - assets/othello3.svg
+    - assets/Alquerque-1.png
+    - assets/Alquerque-game.png
+    - assets/Groupcoloralquare.svg
+    - assets/gamesetupalquare.svg
+    - assets/Alquerque2.svg
+    - assets/Alquerque3.svg
+    - assets/Alquerque4.svg
+    - assets/Alquerque5.svg
+    - assets/Asalto-game.png
+    - assets/Asalto-1.png
+    - assets/Groupasalto.svg
+    - assets/asaltocolor.svg
+    - assets/asaltosetup.svg
+    - assets/asalto1.svg
+    - assets/asalto2.svg
+    - assets/asalto3.svg
+    - assets/asalto4.svg
+    - assets/Achi-1.png
+    - assets/Achi-game.png
+    - assets/Gruopachi.svg
+    - assets/Gamesetupachi.svg
+    - assets/achi1.svg
+    - assets/achi2.svg
+    - assets/logopixply.png
+    - assets/Baghchal-1.png
+    - assets/baghchal-game.png
+    - assets/baghchalcolor.svg
+    - assets/baghchalsetup.svg
+    - assets/baghchal1.svg
+    - assets/baghchal2.svg
+    - assets/baghchal3.svg
+    - assets/Catchthehare-1.png
+    - assets/Catchthehare-game.png
+    - assets/cactchgroup.svg
+    - assets/catchsetup.svg
+    - assets/catch1.svg
+    - assets/catch2.svg
+    - assets/catch3.svg
+    - assets/Checkers-1.png
+    - assets/Checkers-game.png
+    - assets/checkerssetup.svg
+    - assets/checkers1.svg
+    - assets/checkers2.svg
+    - assets/checkers3.svg
+    - assets/choko-1.png
+    - assets/choko-game.png
+    - assets/chokosetup.svg
+    - assets/choko1.svg
+    - assets/choko2.svg
+    - assets/Fox-1.png
+    - assets/foxcolor.svg
+    - assets/foxsetup.svg
+    - assets/fox1.svg
+    - assets/fox2.svg
+    - assets/fox3.svg
+    - assets/fox-game.png
+    - assets/Yote-1.png
+    - assets/Yote-game.png
+    - assets/yotesetup.svg
+    - assets/yote1.svg
+    - assets/yote2.svg
+    - assets/yote3.svg
+    - assets/Yote.png
+    - assets/dara-1.png
+    - assets/dara-game.png
+    - assets/dara1.svg
+    - assets/dara2.svg
+    - assets/Dara.png
+    - assets/Felli.png
+    - assets/Felli-1.png
+    - assets/fellicolor.svg
+    - assets/fellisetup.svg
+    - assets/felli1.svg
+    - assets/felli2.svg
+    - assets/felli-game.png
+    - assets/felli3.svg
+    - assets/Gomoko.png
+    - assets/Gomoko-1.png
+    - assets/Gomoko-game.png
+    - assets/gomokocolor.svg
+    - assets/Gomokosetup.svg
+    - assets/Gameplaygomoko.svg
+    - assets/patgonu.png
+    - assets/patgonu-1.png
+    - assets/Grouppatgonu.svg
+    - assets/patgonusetup.svg
+    - assets/patgonu1.svg
+    - assets/patgonu2.svg
+    - assets/pat Gonu-game.png
+    - assets/LoA-1.png
+    - assets/Loa.png
+    - assets/Loa-game.png
+    - assets/loasetup.svg
+    - assets/loa1.svg
+    - assets/loa2.svg
+    - assets/loa3.svg
+    - assets/mutorere.png
+    - assets/muturere-1.png
+    - assets/muturere-game.png
+    - assets/mutorerecolor.svg
+    - assets/motoresetup.svg
+    - assets/motore1.svg
+    - assets/motore2.svg
+    - assets/neutrn.png
+    - assets/neutrn-1.png
+    - assets/neutroncolor.svg
+    - assets/nutronsetup.svg
+    - assets/nutron1.svg
+    - assets/nutron2.svg
+    - assets/Neutron-game.png
+    - assets/ordo-1.png
+    - assets/ordo.png
+    - assets/ordo-game.png
+    - assets/ordocolor.svg
+    - assets/ordosetup.svg
+    - assets/ordo1.svg
+    - assets/ordo2.svg
+    - assets/ordo3.svg
+    - assets/ordo4.svg
+    - assets/Pah tum-1.png
+    - assets/Pah tum.png
+    - assets/pattumsetup.svg
+    - assets/pattum1.svg
+    - assets/pattumcolor.svg
+    - assets/Pah tum-game.png
+    - assets/Duplo Draughts.png
+    - assets/Duplo Draughts-1.png
+    - assets/Duplo Draughtssetup.svg
+    - assets/Duplo Draughts1.svg
+    - assets/Duplo Draughts2.svg
+    - assets/Duplo Draughts3.svg
+    - assets/Duplo Draughts4.svg
+    - assets/Duplo Draughts-game.png
+    - assets/Halma-1.png
+    - assets/Halma.png
+    - assets/halmacolor.svg
+    - assets/setuphalma.svg
+    - assets/Halma1.svg
+    - assets/Halma2.svg
+    - assets/Halma-game.png
+    - assets/Grouphalma.svg
+    - assets/Puluc-1.png
+    - assets/Puluc.png
+    - assets/puluccolor.svg
+    - assets/pulucsetup.svg
+    - assets/puluc1.svg
+    - assets/puluc2.svg
+    - assets/puluc3.svg
+    - assets/Puluc-game.png
+    - assets/Seega.png
+    - assets/Seega-1.png
+    - assets/seegasetup.svg
+    - assets/seega1.svg
+    - assets/seega2.svg
+    - assets/seega3.svg
+    - assets/seega4.svg
+    - assets/seega-game.png
+    - assets/Hnefatafl-1.png
+    - assets/Hnefatafl.png
+    - assets/Hnefataflcolor.svg
+    - assets/Hnefataflsetup.svg
+    - assets/Hnefatafl1.svg
+    - assets/Hnefatafl2.svg
+    - assets/Hnefatafl3.svg
+    - assets/Hnefatafl4.svg
+    - assets/Hnefatafi-game.png
+    - assets/Kharbaga-1.png
+    - assets/Kharbaga.png
+    - assets/Kharbagasetup.svg
+    - assets/Kharbaga1.svg
+    - assets/Kharbaga2.svg
+    - assets/kharbaga-game.png
+    - assets/Konane-1.png
+    - assets/Konane.png
+    - assets/konanecolor.svg
+    - assets/konanesetup.svg
+    - assets/konane1.svg
+    - assets/konane2.svg
+    - assets/konane3.svg
+    - assets/konane-game.png
+    - assets/madesetup.svg
+    - assets/madelin1.svg
+    - assets/madelin2.svg
+    - assets/Madelinette-game.png
+    - assets/Madelinette.png
+    - assets/Madelinette-1.png
+    - assets/Picaria-1.png
+    - assets/Picaria.png
+    - assets/Picariasetup.svg
+    - assets/Picaria1.svg
+    - assets/Picaria2.svg
+    - assets/Picaria-game.png
+    - assets/queahcolor.svg
+    - assets/Queahsetup.svg
+    - assets/Queah1.svg
+    - assets/Queah2.svg
+    - assets/Queah.png
+    - assets/Queah-1.png
+    - assets/Queah-game.png
+    - assets/Surakartasetup.svg
+    - assets/Surakarta1.svg
+    - assets/Surakarta.png
+    - assets/Surakarta-1.png
+    - assets/Surakarta-game.png
+    - assets/Surakarta2.svg
+    - assets/GroupBrandubh.svg
+    - assets/Brandubhcolor.svg
+    - assets/Brandubhsetup.svg
+    - assets/Brandubh1.svg
+    - assets/Brandubh2.svg
+    - assets/Brandubh3.svg
+    - assets/Brandubh-1.png
+    - assets/Brandubh-game.png
+    - assets/Brandubh.png
+    - assets/Go-1.png
+    - assets/Go.png
+    - assets/Gocolor.svg
+    - assets/Gosetup.svg
+    - assets/go1.svg
+    - assets/Go2.svg
+    - assets/Go3.svg
+    - assets/go-game.png
+    - assets/GroupHyenachase.svg
+    - assets/Hyenachasesetup.svg
+    - assets/Hyenachase1.svg
+    - assets/Hyenachase2.svg
+    - assets/Hyenachase3.svg
+    - assets/Hyenachase-1.png
+    - assets/Hyenachase.png
+    - assets/Hyena chase-game.png
+    - assets/Zohnahlcolor.svg
+    - assets/Zohnahlsetup.svg
+    - assets/Zohnahl1.svg
+    - assets/Zohnahl2.svg
+    - assets/Zohnahl3.svg
+    - assets/Zohnahl-1.png
+    - assets/Patolli-1.png
+    - assets/Patolli-game.png
+    - assets/patolicolor.svg
+    - assets/patoli1.svg
+    - assets/patoli3.svg
+    - assets/patoli4.svg
+    - assets/PenteGerammisetup.svg
+    - assets/PenteGerammi1.svg
+    - assets/PenteGerammi2.svg
+    - assets/pente gerammai-game.png
+    - assets/PenteGerammi-1.png
+    - assets/PenteGerammi.png
+    - assets/GroupAwithlaknannai.svg
+    - assets/Awithlaknannaisetup.svg
+    - assets/Awithlaknannai1.svg
+    - assets/Awithlaknannai2.svg
+    - assets/Awithlaknannai-1.png
+    - assets/Awithlaknannai.png
+    - assets/Awithlaknannai-game.png
+    - assets/UR-1.png
+    - assets/UR.png
+    - assets/URsetup.svg
+    - assets/Groupur.svg
+    - assets/ur1.svg
+    - assets/ur2.svg
+    - assets/ur-game.png
+    - assets/Latrunculigrup.svg
+    - assets/GroupLatrunculi.svg
+    - assets/Latrunculisetup.svg
+    - assets/Latrunculi1.svg
+    - assets/Latrunculi2.svg
+    - assets/Latrunculi3.svg
+    - assets/Rota1.svg
+    - assets/Rota2.svg
+    - assets/Rota-1.png
+    - assets/Rota.png
+    - assets/Latrunculi-1.png
+    - assets/Rota-game.png
+    - assets/Latrunculi-game.png
+    - assets/Latrunculi.png
+    - assets/Zohnahl.png
+    - assets/rotasetup.svg
+    - assets/patoli2.svg
+    - assets/pentegcolor.svg
+    - assets/tab-1.png
+    - assets/Tab-game.png
+    - assets/heyenagroup.svg
+    - assets/plus.svg
+    - assets/back.svg
+    - assets/fresh.svg
+    - assets/rotate.svg
+    - assets/reset.svg
+    - assets/brightness.svg
+    - assets/bluetooth.svg
+    - assets/displaycolor.svg
+    - assets/filter.svg
+    - assets/doubt.svg
+    - assets/business.svg
+    - assets/arrow.2 2.svg
+    - assets/Union.svg
+    - assets/g2088.svg
+    - assets/account.svg
+    - assets/pix.svg
+    - assets/info.svg
+    - assets/close.svg
+    - assets/garbag.svg
+    - assets/pen.svg
+    - assets/brush.svg
+    - assets/colorpicker.svg
+    - assets/tested.svg
+    - assets/upload.svg
+    - assets/zoom.svg
+    - assets/edit.svg
+    - assets/Group 893.png
+    - assets/testessixmens.png
+    - assets/Group 873.png
+    - assets/translate.svg
+    - assets/google.svg
+    - assets/apple.svg
+    - assets/bgexplore.png
+    - assets/bgexplore.svg
+    - assets/scoreboard.png
+    - assets/digital_dice.png
+    - assets/pixstudio.png
+    - assets/Aboutus.svg
+    - assets/termscondition.svg
+    - assets/notification.svg 
+    - assets/Player.svg
+    - assets/age.svg
+    - assets/images/dice_6.png
+    - assets/images/dice_5.png
+    - assets/images/dice_4.png
+    - assets/images/dice_3.png
+    - assets/images/dice_2.png
+    - assets/images/dice_1.png
+    - assets/audios/rolling-dice.mp3
+    - assets/arrow-rotate-right.svg
+    - assets/arrow-rotate-left.svg
+    - assets/arrow-square-1.svg
+    - assets/arrow-square-2.svg
+    - assets/Tableofthefourseason.png
+    - assets/Tableofthefourseason-1.png
+    - assets/Tableofthefourseason-game.png
+    - assets/TablePageoverview.svg
+    - assets/componenttable.svg
+    - assets/Tablesetup.svg
+    - assets/playtable1.svg
+    - assets/playtable2.svg
+    - assets/playtable3.svg
+    - assets/playtable4.svg
+    - assets/Morabaraba-game.png
+    - assets/SetupMorabaraba.svg
+    - assets/Morabarabaplay1.svg
+    - assets/Morabarabaplay2.svg
+    - assets/Morabarabaplay3.svg
+    - assets/Morabaraba-1.png
+    - assets/Morabaraba.png
+    - assets/LenChoa-game.png
+    - assets/LenChoacomponent.svg
+    - assets/LenChoasetup.svg
+    - assets/LenChoaplay1.svg
+    - assets/LenChoaplay2.svg
+    - assets/LenChoa-1.png
+    - assets/LenChoa.png
+    - assets/LeopardCow-game.png
+    - assets/LeopardCowcomponent.svg
+    - assets/LeopardCowsetup.svg
+    - assets/LeopardCowplay1.svg
+    - assets/LeopardCowplay2.svg
+    - assets/LeopardCowplay3.svg
+    - assets/LeopardCowplay4.svg
+    - assets/Leopardandcow-1.png
+    - assets/Leopardandcow.png
+    - assets/Tapatan-game.png
+    - assets/Tapatansetup.svg
+    - assets/Tapatanplay1.svg
+    - assets/Tapatanplay2.svg
+    - assets/Tapatan-1.png
+    - assets/Tapatan.png
+    - assets/Pretwa-game.png
+    - assets/Pretwasetup.svg
+    - assets/Pretwaplay1.svg
+    - assets/Pretwaplay2.svg
+    - assets/Pretwaplay3.svg
+    - assets/Pretwa-1.png
+    - assets/Pretwa.png
+    - assets/CrossGridcomponents.svg
+    - assets/CrossGrid-game.png
+    - assets/CrossGridoverview.svg
+    - assets/CrossGridsetup.svg
+    - assets/CrossGridplay1.svg
+    - assets/CrossGridplay3.svg
+    - assets/CrossGridplay2.svg
+    - assets/Cross Grid-1.png
+    - assets/Cross Grid.png
+    - assets/Aseb-game.png
+    - assets/Aseboverview.svg
+    - assets/Asebcomponent.svg
+    - assets/Asebsetupt.svg
+    - assets/Asebplay1.svg
+    - assets/Asebplay2.svg
+    - assets/Aseb-1.png
+    - assets/Aseb.png
+    - assets/Pentalpha-game.png
+    - assets/Pentalphaoverview.svg
+    - assets/Pentalphacomponent.svg
+    - assets/Pentalphasetup.svg
+    - assets/Pentalphaplay1.svg
+    - assets/Pentalphaplay2.svg
+    - assets/Pentalphaplay3.svg
+    - assets/Pentalpha-1.png
+    - assets/Pentalpha.png
+    - assets/SnakesLadders-game.png
+    - assets/SnakesLaddersover.svg
+    - assets/SnakesLadderscomponent.svg
+    - assets/SnakesLadderssetup.svg
+    - assets/SnakesLaddersplay1.svg
+    - assets/SnakesLaddersplay2.svg
+    - assets/Snakes and ladders-1.png
+    - assets/Snakes and ladders.png
+    - assets/Agon-game.png
+    - assets/Agoncomponent.svg
+    - assets/Agonsetup.svg
+    - assets/Agonplay3.svg
+    - assets/Agonplay5.svg
+    - assets/Agonplay4.svg
+    - assets/Agonplay2.svg
+    - assets/Agonplay1.svg
+    - assets/Agon-1.png
+    - assets/Agon.png
+    - assets/WatermelonChess-game.png
+    - assets/WatermelonChesssetup.svg
+    - assets/WatermelonChessplay1.svg
+    - assets/WatermelonChessplay2.svg
+    - assets/Watermelon chess.png
+    - assets/Watermelon chess-1.png
+    - assets/ManMoon-game.png
+    - assets/moonsetup.svg
+    - assets/moon5.svg
+    - assets/moon4.svg
+    - assets/moon3.svg
+    - assets/moon2.svg
+    - assets/moon1.svg
+    - assets/The Man in the Moon-1.png
+    - assets/The Man in the Moon.png
+    - assets/Sahkku-game.png
+    - assets/Sahkkucomponent.svg
+    - assets/Sahkkusetup.svg
+    - assets/Sakkutapaly1.svg
+    - assets/Sakkutapaly2.svg
+    - assets/Sakkutapaly3.svg
+    - assets/Sakkutapaly4.svg
+    - assets/Sahkku-1.png
+    - assets/Sahkku.png
+    - assets/Dama-game.png
+    - assets/Damasetup.svg
+    - assets/damaplay1.svg
+    - assets/damaplay5.svg
+    - assets/damaplay4.svg
+    - assets/damaplay3.svg
+    - assets/damaplay2.svg
+    - assets/Dama-1.png
+    - assets/Dama.png
+    - assets/rimu-game.png
+    - assets/riucomponent.svg
+    - assets/riusetup.svg
+    - assets/rimuplay1.svg
+    - assets/rimuplay2.svg
+    - assets/rimuplay3.svg
+    - assets/Rimau-1.png
+    - assets/Rimau.png
+    - assets/ThreeMensMorris-game.png
+    - assets/ThreeMensMorrisover.svg
+    - assets/ThreeMensMorrisoversetup.svg
+    - assets/ThreeMensMorrisplay1.svg
+    - assets/ThreeMensMorrisplay2.svg
+    - assets/Three Men’s Morris-1.png
+    - assets/Three Men’s Morris.png
+    - assets/AshtaChamma-game.png
+    - assets/AshtaChammaoverview.svg
+    - assets/AshtaChammacomponent.svg
+    - assets/AshtaChammasetup.svg
+    - assets/AshtaChammaplay1.svg
+    - assets/AshtaChammaplay3.svg
+    - assets/AshtaChammaplay2.svg
+    - assets/AshtaChamma-1.png
+    - assets/Ashta Chamma.png
+    - assets/DablotPrejjesne-game.png
+    - assets/DablotPrejjesnecomponent.svg
+    - assets/DablotPrejjesnesetup.svg
+    - assets/DablotPrejjesneplay1.svg
+    - assets/DablotPrejjesneplay2.svg
+    - assets/DablotPrejjesneplay3.svg
+    - assets/Dablot Prejjesne-1.png
+    - assets/Dablot Prejjesne.png
+    - assets/Adu huli-game.png
+    - assets/AduHulicomponent.svg
+    - assets/AduHulisetup.svg
+    - assets/AduHuliplay3.svg
+    - assets/AduHuliplay2.svg
+    - assets/AduHuliplay1.svg
+    - assets/Adu huli-1.png
+    - assets/Adu huli.png
+    - assets/Tonkinplay1.svg
+    - assets/Tonkinplay2.svg
+    - assets/Tonkinsetup.svg
+    - assets/Tonkin-game.png
+    - assets/Tonkin.png
+    - assets/Tonkin-1.png
+    - assets/othello5.svg
+    - assets/bluetoothinstruction.svg
+    - assets/powerbankinstruction.svg
+    - assets/enrollinstruction.png
+    - assets/activatecart.svg
+    - assets/Pixstudiobg.png
+    
+  # An image asset can refer to one or more resolution-specific "variants", see
+  # https://flutter.dev/assets-and-images/#resolution-aware
+
+  # For details regarding adding assets from package dependencies, see
+  # https://flutter.dev/assets-and-images/#from-packages
+
+  # To add custom fonts to your application, add a fonts section here,
+  # in this "flutter" section. Each entry in this list should have a
+  # "family" key with the font family name, and a "fonts" key with a
+  # list giving the asset and other descriptors for the font. For
+  # example:
+  fonts:
+    - family: Poppins
+      fonts:
+        - asset: assets/fonts/Poppins-Regular.ttf
+        - asset: assets/fonts/Poppins-Bold.ttf
+        - asset: assets/fonts/Poppins-SemiBold.ttf
+  #     fonts:
+  #       - asset: fonts/TrajanPro.ttf
+  #       - asset: fonts/TrajanPro_Bold.ttf
+  #         weight: 700
+  #
+  # For details regarding fonts from package dependencies,
+  # see https://flutter.dev/custom-fonts/#from-packages
