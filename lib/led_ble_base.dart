@@ -472,25 +472,25 @@ await _writeSmallCharacteristic!.write(
         // Prepare to wait for response BEFORE writing (avoid race)
         Completer<bool> completer = Completer<bool>();
         StreamSubscription? subscription;
-        subscription = _notificationDataController.stream.listen((data) {
-          // Check if response matches packet ID
+        subscription = _notificationDataController.stream
+            .where((data) =>
+                data.length >= 9 &&
+                data[0] == _identificationCode &&
+                data[1] == commandCode)
+            .listen((data) {
           logFullMessage('_notificationDataController data: ${data.toHex()}');
-          if (data.length >= 9 &&
-              data[0] == _identificationCode &&
-              data[1] == commandCode) {
-            // Check packet ID
-            int responsePacketId = (data[4] << 24) |
-                (data[5] << 16) |
-                (data[6] << 8) |
-                data[7];
-            logFullMessage('responsePacketId: $responsePacketId');
-            if (responsePacketId == packetId) {
-              // Check response status
-              bool success = data[8] == 0x01;
-              subscription?.cancel();
-              logFullMessage('success: $success');
-              completer.complete(success);
-            }
+          // Check packet ID
+          int responsePacketId = (data[4] << 24) |
+              (data[5] << 16) |
+              (data[6] << 8) |
+              data[7];
+          logFullMessage('responsePacketId: $responsePacketId');
+          if (responsePacketId == packetId) {
+            // Check response status
+            bool success = data[8] == 0x01;
+            subscription?.cancel();
+            logFullMessage('success: $success');
+            completer.complete(success);
           }
         });
 
@@ -539,7 +539,12 @@ if (Platform.isIOS) {
       // Prepare listener before writing
       Completer<bool> completer = Completer<bool>();
       StreamSubscription? subscription;
-      subscription = _notificationDataController.stream.listen((data) {
+      subscription = _notificationDataController.stream
+          .where((data) =>
+              data.length >= 5 &&
+              data[0] == _identificationCode &&
+              data[1] == CommandCode.updatePlaylistComplete)
+          .listen((data) {
         logFullMessage('_notificationDataController data: ${data.toHex()}');
         subscription?.cancel();
         completer.complete(true);
@@ -577,17 +582,16 @@ if (Platform.isIOS) {
     Completer<bool> completer = Completer<bool>();
     StreamSubscription? subscription;
 
-    subscription = _notificationDataController.stream.listen((response) {
-      // Check if response matches
-      if (response.length >= 5 &&
-          response[0] == _identificationCode &&
-          response[1] == commandCode) {
-
-        // Check response status
-        bool success = response[4] == 0x01;
-        subscription?.cancel();
-        completer.complete(success);
-      }
+    subscription = _notificationDataController.stream
+        .where((response) =>
+            response.length >= 5 &&
+            response[0] == _identificationCode &&
+            response[1] == commandCode)
+        .listen((response) {
+      // Check response status
+      bool success = response[4] == 0x01;
+      subscription?.cancel();
+      completer.complete(success);
     });
 
     // Create command packet and send after listener is ready
@@ -615,16 +619,17 @@ if (Platform.isIOS) {
   Future<bool> deleteAllPrograms() async {
     Completer<bool> completer = Completer<bool>();
     StreamSubscription? subscription;
-    subscription = _notificationDataController.stream.listen((data) {
-      if (data.length >= 5 &&
-          data[0] == _identificationCode &&
-          data[1] == CommandCode.deleteAllPrograms) {
+    subscription = _notificationDataController.stream
+        .where((data) =>
+            data.length >= 5 &&
+            data[0] == _identificationCode &&
+            data[1] == CommandCode.deleteAllPrograms)
+        .listen((data) {
 
-        int result = data[4];
-        logFullMessage('deleteAllPrograms result: $result');
-        subscription?.cancel();
-        completer.complete(result == 1);
-      }
+      int result = data[4];
+      logFullMessage('deleteAllPrograms result: $result');
+      subscription?.cancel();
+      completer.complete(result == 1);
     });
 
     await _sendSmallCommand(CommandCode.deleteAllPrograms, [0x00]);
@@ -676,16 +681,17 @@ if (Platform.isIOS) {
       // Wait for response (subscribe BEFORE sending command)
       Completer<bool> completer = Completer<bool>();
       StreamSubscription? subscription;
-      subscription = _notificationDataController.stream.listen((data) {
-        if (data.length >= 5 &&
-            data[0] == _identificationCode &&
-            data[1] == CommandCode.addProgramToPlaylist) {
+      subscription = _notificationDataController.stream
+          .where((data) =>
+              data.length >= 5 &&
+              data[0] == _identificationCode &&
+              data[1] == CommandCode.addProgramToPlaylist)
+          .listen((data) {
 
-          int result = data[4];
-          logFullMessage('addProgramToPlaylist result: $result');
-          subscription?.cancel();
-          completer.complete(result == 1);
-        }
+        int result = data[4];
+        logFullMessage('addProgramToPlaylist result: $result');
+        subscription?.cancel();
+        completer.complete(result == 1);
       });
 
       // Send add program command
@@ -724,16 +730,17 @@ if (Platform.isIOS) {
     Completer<bool> completer = Completer<bool>();
     StreamSubscription? subscription;
 
-    subscription = _notificationDataController.stream.listen((data) {
-      if (data.length >= 5 &&
-          data[0] == _identificationCode &&
-          data[1] == CommandCode.updatePlaylistComplete) {
+    subscription = _notificationDataController.stream
+        .where((data) =>
+            data.length >= 5 &&
+            data[0] == _identificationCode &&
+            data[1] == CommandCode.updatePlaylistComplete)
+        .listen((data) {
 
-        int result = data[4];
-        logFullMessage('updatePlaylistComplete result: $result');
-        subscription?.cancel();
-        completer.complete(result == 1);
-      }
+      int result = data[4];
+      logFullMessage('updatePlaylistComplete result: $result');
+      subscription?.cancel();
+      completer.complete(result == 1);
     });
 
     await _sendSmallCommand(CommandCode.updatePlaylistComplete, [0x01]);
@@ -805,19 +812,18 @@ if (Platform.isIOS) {
       // Wait for response (subscribe before command)
       Completer<bool> completer = Completer<bool>();
       StreamSubscription? subscription;
-      subscription = _notificationDataController.stream.listen((response) {
-        logFullMessage('response: ${response.toHex()}');
-        // Check if response matches
-        if (response.length >= 5 &&
+    subscription = _notificationDataController.stream
+        .where((response) =>
+            response.length >= 5 &&
             response[0] == _identificationCode &&
-            response[1] == CommandCode.sendTemporaryProgram) {
-
-          // Check response status
-          bool success = response[4] == 0x01;
-          subscription?.cancel();
-          completer.complete(success);
-        }
-      });
+            response[1] == CommandCode.sendTemporaryProgram)
+        .listen((response) {
+      logFullMessage('response: ${response.toHex()}');
+      // Check response status
+      bool success = response[4] == 0x01;
+      subscription?.cancel();
+      completer.complete(success);
+    });
 
       // Send temporary program command
       await _sendSmallCommand(
@@ -864,16 +870,17 @@ if (Platform.isIOS) {
     Completer<bool> completer = Completer<bool>();
     StreamSubscription? subscription;
 
-    subscription = _notificationDataController.stream.listen((data) {
-      if (data.length >= 5 &&
-          data[0] == _identificationCode &&
-          data[1] == CommandCode.selectProgram) {
+    subscription = _notificationDataController.stream
+        .where((data) =>
+            data.length >= 5 &&
+            data[0] == _identificationCode &&
+            data[1] == CommandCode.selectProgram)
+        .listen((data) {
 
-        int result = data[4];
-        logFullMessage('selectProgram result: $result');
-        subscription?.cancel();
-        completer.complete(result == 1);
-      }
+      int result = data[4];
+      logFullMessage('selectProgram result: $result');
+      subscription?.cancel();
+      completer.complete(result == 1);
     });
 
     await _sendSmallCommand(CommandCode.selectProgram, commandData);
@@ -969,16 +976,17 @@ if (Platform.isIOS) {
       // Wait for response (subscribe before command)
       Completer<int> completer = Completer<int>();
       StreamSubscription? subscription;
-      subscription = _notificationDataController.stream.listen((data) {
-        if (data.length >= 5 &&
+    subscription = _notificationDataController.stream
+        .where((data) =>
+            data.length >= 5 &&
             data[0] == _identificationCode &&
-            data[1] == CommandCode.getBuiltInGifCount) {
+            data[1] == CommandCode.getBuiltInGifCount)
+        .listen((data) {
 
-          int count = data[4];
-          subscription?.cancel();
-          completer.complete(count);
-        }
-      });
+      int count = data[4];
+      subscription?.cancel();
+      completer.complete(count);
+    });
 
       // Send get built-in GIF count command
       bool success = await _sendSmallCommand(
@@ -1045,15 +1053,16 @@ if (Platform.isIOS) {
       // Wait for response (subscribe before command)
       Completer<bool> completer = Completer<bool>();
       StreamSubscription? subscription;
-      subscription = _notificationDataController.stream.listen((data) {
-        if (data.length >= 5 &&
-            data[0] == _identificationCode &&
-            data[1] == CommandCode.queryFeatureSupport) {
+      subscription = _notificationDataController.stream
+          .where((data) =>
+              data.length >= 5 &&
+              data[0] == _identificationCode &&
+              data[1] == CommandCode.queryFeatureSupport)
+          .listen((data) {
 
-          bool supported = data[4] == 0x01;
-          subscription?.cancel();
-          completer.complete(supported);
-        }
+        bool supported = data[4] == 0x01;
+        subscription?.cancel();
+        completer.complete(supported);
       });
 
       bool success = await _sendSmallCommand(
