@@ -86,8 +86,17 @@ class LedBluetooth {
 
   // Give iOS a bit more headroom when waiting for notify ACKs.
   Duration _ackTimeout() => Platform.isIOS
-      ? const Duration(seconds: 2)
-      : const Duration(seconds: 1);
+      ? const Duration(seconds: 5)
+      : const Duration(seconds: 3);
+
+  /// Try to use negotiated MTU to size packets conservatively.
+  int _maxChunkSize() {
+    // MTU - 3 bytes ATT header. Clamp to keep iOS safe and Android under 512.
+    final int mtu = _connectedDevice?.mtuNow ?? 23;
+    final int clamped =
+        (mtu - 3).clamp(20, Platform.isIOS ? 182 : 509).toInt();
+    return clamped;
+  }
 
   /// Initialize Bluetooth
   Future<bool> initialize() async {
@@ -162,8 +171,39 @@ class LedBluetooth {
       }
 
       // Connect to device
-      await device.connect(autoConnect: false, timeout: const Duration(seconds: 15));
+      await device.connect(
+        license: License.free,
+        autoConnect: false,
+        timeout: const Duration(seconds: 15),
+      );
       _connectedDevice = device;
+
+      // Boost link on Android before heavy transfers
+      if (Platform.isAndroid) {
+        try {
+          await device.requestConnectionPriority(
+            connectionPriorityRequest: ConnectionPriority.high,
+          );
+        } catch (e) {
+          logFullMessage('requestConnectionPriority failed: $e');
+        }
+        try {
+          final mtu = await device.requestMtu(512);
+          logFullMessage('Requested MTU, negotiated: $mtu');
+        } catch (e) {
+          logFullMessage('requestMtu failed: $e');
+        }
+        try {
+          // Prefer higher throughput & range when supported by peripheral
+          await device.setPreferredPhy(
+            txPhy: Phy.le2m.mask | Phy.leCoded.mask,
+            rxPhy: Phy.le2m.mask | Phy.leCoded.mask,
+            option: PhyCoding.s2,
+          );
+        } catch (e) {
+          logFullMessage('setPreferredPhy failed: $e');
+        }
+      }
 
       // Discover services
       List<BluetoothService> services = await device.discoverServices();
@@ -339,11 +379,20 @@ class LedBluetooth {
     return Uint8List.fromList(packet);
   }
 
-bool get _useWriteWithoutResponseSmall =>
-    _writeSmallCharacteristic?.properties.writeWithoutResponse == true;
+bool get _shouldUseWriteWithoutResponseSmall {
+  final props = _writeSmallCharacteristic?.properties;
+  if (props == null) return false;
+  // Prefer write-with-response when available; fall back to WWR only if that's all we have.
+  if (props.write == true) return false;
+  return props.writeWithoutResponse == true;
+}
 
-bool get _useWriteWithoutResponseLarge =>
-    _writeLargeCharacteristic?.properties.writeWithoutResponse == true;
+bool get _shouldUseWriteWithoutResponseLarge {
+  final props = _writeLargeCharacteristic?.properties;
+  if (props == null) return false;
+  if (props.write == true) return false;
+  return props.writeWithoutResponse == true;
+}
 
   /// Send small data command
   Future<bool> _sendSmallCommand(int commandCode, List<int> data) async {
@@ -359,7 +408,7 @@ bool get _useWriteWithoutResponseLarge =>
       // Send data
 await _writeSmallCharacteristic!.write(
   packet,
-  withoutResponse: _useWriteWithoutResponseSmall || Platform.isAndroid,
+  withoutResponse: _shouldUseWriteWithoutResponseSmall,
 );
 
 
@@ -378,8 +427,8 @@ await _writeSmallCharacteristic!.write(
     logFullMessage('length: ${data.length}');
 
     try {
-      // Packet size: Android can handle larger writes, iOS needs smaller chunks.
-      final int maxPacketSize = Platform.isIOS ? 170 : 487;
+      // Packet size based on negotiated MTU to avoid overflow/drops.
+      final int maxPacketSize = _maxChunkSize();
 
       // Send in packets
       int totalPackets = (data.length / maxPacketSize).ceil();
@@ -448,7 +497,7 @@ await _writeSmallCharacteristic!.write(
         // Send data
 await _writeLargeCharacteristic!.write(
   packet,
-  withoutResponse: _useWriteWithoutResponseLarge || Platform.isAndroid,
+  withoutResponse: _shouldUseWriteWithoutResponseLarge,
 );
 if (Platform.isIOS) {
   await Future.delayed(const Duration(milliseconds: 8));
@@ -498,7 +547,7 @@ if (Platform.isIOS) {
 
       await _writeLargeCharacteristic!.write(
         packet,
-        withoutResponse: _useWriteWithoutResponseLarge || Platform.isAndroid,
+        withoutResponse: _shouldUseWriteWithoutResponseLarge,
       );
       if (Platform.isIOS) {
         await Future.delayed(const Duration(milliseconds: 8));
@@ -545,7 +594,7 @@ if (Platform.isIOS) {
     Uint8List packet = _createCommandPacket(commandCode, data);
 await _writeLargeCharacteristic!.write(
   packet,
-  withoutResponse: _useWriteWithoutResponseLarge || Platform.isAndroid,
+  withoutResponse: _shouldUseWriteWithoutResponseLarge,
 );
 if (Platform.isIOS) {
   await Future.delayed(const Duration(milliseconds: 8));
